@@ -1,0 +1,38 @@
+[gd_scene load_steps=9 format=3 uid="uid://upcww1lsxxgx"]
+
+[ext_resource type="Script" uid="uid://csrjps0muc1ft" path="res://Scripts/StateMachine.gd" id="1_ajy74"]
+[ext_resource type="Script" uid="uid://cync06wuc8yw3" path="res://Scripts/Player/Player.gd" id="1_t86h6"]
+[ext_resource type="Script" uid="uid://bb5ncpgvyqbv6" path="res://Scripts/Player/FSM_Idle.gd" id="3_r6m6p"]
+[ext_resource type="Script" uid="uid://dbtcsgdi43aoa" path="res://Scripts/Player/FSM_Running.gd" id="4_s8rx5"]
+[ext_resource type="Script" uid="uid://c8p24aku24bhg" path="res://Scripts/Player/FSM_Jumping.gd" id="5_k46cm"]
+[ext_resource type="Script" uid="uid://0q6gb45g21xf" path="res://Scripts/Player/FSM_DoubleJump.gd" id="6_vsrq0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t86h6"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5f5w1"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_t86h6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_t86h6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.984502, 0, 0, 0, 0.499035, 0, 0, 0, 0.984502, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_5f5w1")
+
+[node name="FSM" type="Node" parent="." node_paths=PackedStringArray("initialState")]
+script = ExtResource("1_ajy74")
+initialState = NodePath("FSM_Idle")
+
+[node name="FSM_Idle" type="Node" parent="FSM"]
+script = ExtResource("3_r6m6p")
+
+[node name="FSM_Running" type="Node" parent="FSM"]
+script = ExtResource("4_s8rx5")
+
+[node name="FSM_Jumping" type="Node" parent="FSM"]
+script = ExtResource("5_k46cm")
+
+[node name="FSM_DoubleJump" type="Node" parent="FSM"]
+script = ExtResource("6_vsrq0")
