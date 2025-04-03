@@ -19,11 +19,10 @@ func physics_update(delta) -> void:
 	else:
 		dustCurrFrame += 1
 
-	if player.inputVec != Vector2.ZERO:
-		player.input_to_horizontal_movement(delta)
-	else:
+	if player.inputVec == Vector2.ZERO:
 		finished.emit(IDLE)
 
+	player.input_to_horizontal_movement(delta)
 	player.horizontal_movement(delta)
 
 	if (!player.is_on_floor()):

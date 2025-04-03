@@ -9,12 +9,13 @@ class_name Player extends CharacterBody3D
 @export var dustTimer := 15
 @export var friction := 20.0
 @export var airFriction := 6.0
+
+var idleSkidVec: Vector2 = Vector2.ZERO
 var inputVec: Vector2 = Vector2.ZERO
 
 func set_input_vec() -> void:
     inputVec.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
     inputVec.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-    print(velocity)
 
 func input_to_horizontal_movement(delta: float) -> void:
     if (speed < maxSpeed):
@@ -34,6 +35,10 @@ func horizontal_movement(delta: float) -> void:
     velocity.x *= (delta * speed)
     velocity.z *= (delta * speed)
 
-func idle_skid() -> void:
+func idle_skid(delta: float) -> void:
     if (speed > 0):
         speed = clamp(speed - accel, 0, maxSpeed)
+    var temp: Vector2 = Vector2(velocity.x, velocity.z)
+    temp = temp.lerp(idleSkidVec, delta * friction).normalized()
+    velocity.x = temp.x
+    velocity.z = temp.y

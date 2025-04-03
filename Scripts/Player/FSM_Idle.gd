@@ -1,11 +1,13 @@
 extends FSM_PlayerState
 
+func enter(_prevState: String) -> void:
+	player.idleSkidVec = player.inputVec
+
 func handle_input(_event: InputEvent) -> void:
 	player.set_input_vec()
 
 func physics_update(delta: float) -> void:
-	player.idle_skid()
-	player.input_to_horizontal_air_movement(delta)
+	player.idle_skid(delta)
 	player.horizontal_movement(delta)
 
 	if (!player.is_on_floor()):
